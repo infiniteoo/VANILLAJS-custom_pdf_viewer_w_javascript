@@ -10,10 +10,32 @@ const scale = 1.5,
   ctx = canvas.getContext("2d");
 
 // Render the page
-const renderPage = (num) => {};
+const renderPage = (num) => {
+  pageIsRendering = true;
+  // get page
+  pdfDoc.getPage(num).then((page) => {
+    // set scale
+    const viewport = page.getViewport({ scale });
+    canvas.height = viewport.height;
+    canvas.width = viewport.width;
+
+    const renderCtx = {
+        canvasContext: ctx,
+        viewport
+    }
+    page.render(renderCtx).promise.then(() => {
+        pageIsRendering = false;
+        if (pageNumIsPending !== null) {
+            renderPage(pageNumIsPending);
+            pageNumIsPending = null;
+        }
+    });
+  });
+};
 
 // get document
 pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
   pdfDoc = pdfDoc_;
-  console.log(pdfDoc);
+  document.querySelector("#page-count").textContent = pdfDoc.numPages;
+  renderPage(pageNum);
 });
