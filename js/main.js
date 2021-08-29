@@ -71,3 +71,7 @@ pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
   document.querySelector("#page-count").textContent = pdfDoc.numPages;
   renderPage(pageNum);
 });
+
+// button events
+document.querySelector("#prev-page").addEventListener("click", showPrevPage);
+document.querySelector("#next-page").addEventListener("click", showNextPage);
