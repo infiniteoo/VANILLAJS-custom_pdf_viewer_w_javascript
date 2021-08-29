@@ -20,32 +20,40 @@ const renderPage = (num) => {
     canvas.width = viewport.width;
 
     const renderCtx = {
-        canvasContext: ctx,
-        viewport
-    }
+      canvasContext: ctx,
+      viewport,
+    };
     page.render(renderCtx).promise.then(() => {
-        pageIsRendering = false;
-        if (pageNumIsPending !== null) {
-            renderPage(pageNumIsPending);
-            pageNumIsPending = null;
-        }
+      pageIsRendering = false;
+      if (pageNumIsPending !== null) {
+        renderPage(pageNumIsPending);
+        pageNumIsPending = null;
+      }
     });
 
     // output current page
     document.querySelector("#page-num").textContent = num;
-
-
   });
 };
 
 // check for pages rendering
 const queueRenderPage = (num) => {
-    if (pageIsRendering) {
-        pageNumIsPending = num;
-    } else {
-        renderPage(num);
-    }
-}
+  if (pageIsRendering) {
+    pageNumIsPending = num;
+  } else {
+    renderPage(num);
+  }
+};
+
+// show prev page
+const showPrevPage = () => {
+  if (pageNum <= 1) {
+    return;
+  }
+
+  pageNum--;
+  queueRenderPage(pageNum);
+};
 
 // get document
 pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
