@@ -30,6 +30,11 @@ const renderPage = (num) => {
             pageNumIsPending = null;
         }
     });
+
+    // output current page
+    document.querySelector("#page-num").textContent = num;
+
+    
   });
 };
 
