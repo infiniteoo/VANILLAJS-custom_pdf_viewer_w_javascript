@@ -34,9 +34,18 @@ const renderPage = (num) => {
     // output current page
     document.querySelector("#page-num").textContent = num;
 
-    
+
   });
 };
+
+// check for pages rendering
+const queueRenderPage = (num) => {
+    if (pageIsRendering) {
+        pageNumIsPending = num;
+    } else {
+        renderPage(num);
+    }
+}
 
 // get document
 pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
