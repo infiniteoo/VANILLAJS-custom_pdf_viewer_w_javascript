@@ -55,6 +55,16 @@ const showPrevPage = () => {
   queueRenderPage(pageNum);
 };
 
+// show next page
+const showNextPage = () => {
+  if (pageNum >= pdfDoc.numPages) {
+    return;
+  }
+
+  pageNum++;
+  queueRenderPage(pageNum);
+};
+
 // get document
 pdfjsLib.getDocument(url).promise.then((pdfDoc_) => {
   pdfDoc = pdfDoc_;
